@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">KaiYanApp</string>
+    <string name="title_home">每日精选</string>
+    <string name="title_discover">发现</string>
+    <string name="title_hot">热门</string>
+    <string name="title_mine">我的</string>
+</resources>
