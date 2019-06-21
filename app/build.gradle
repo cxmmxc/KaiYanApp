@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
@@ -61,9 +63,11 @@ dependencies {
     implementation 'me.jessyan:arms:2.5.0'
     implementation 'me.jessyan:arms-imageloader-glide:2.5.0'
     //Butterknife 插件, 很多人因为没加这个而报错, 切记!!!
-    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
-    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]//依赖插件
+//    kapt rootProject.ext.dependencies["butterknife-compiler"]
+    kapt rootProject.ext.dependencies["dagger2-compiler"]//依赖插件
+    implementation rootProject.ext.dependencies["dagger2"]
     debugImplementation rootProject.ext.dependencies["canary-debug"]
     releaseImplementation rootProject.ext.dependencies["canary-release"]
     testImplementation rootProject.ext.dependencies["canary-release"]
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha05'
 }

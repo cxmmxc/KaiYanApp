@@ -31,5 +31,8 @@ class GlobalConfiguration : ConfigModule {
         context: Context?,
         lifecycles: MutableList<Application.ActivityLifecycleCallbacks>?
     ) {
+        lifecycles?.let {
+            it.add(ActivityLifeCallbackImp())
+        }
     }
 }
