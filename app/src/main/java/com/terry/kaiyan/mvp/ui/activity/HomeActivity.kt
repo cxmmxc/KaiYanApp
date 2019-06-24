@@ -11,6 +11,7 @@ import com.terry.kaiyan.R
 import com.terry.kaiyan.di.component.DaggerHomeComponent
 import com.terry.kaiyan.di.module.HomeModule
 import com.terry.kaiyan.mvp.contract.HomeContract
+import com.terry.kaiyan.mvp.model.Bean.HomeBean
 import com.terry.kaiyan.mvp.presenter.HomePresenter
 import com.terry.kaiyan.mvp.ui.adapter.HomeAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -96,5 +97,12 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
 
     override fun killMyself() {
         finish()
+    }
+
+    override fun getHomeBannerSuccess(homeBean: HomeBean) {
+
+    }
+
+    override fun getHomeBannerFail() {
     }
 }

@@ -7,7 +7,7 @@ package com.terry.kaiyan.mvp.model.Bean
  * 描述：TODO
  */
 data class HomeBean(
-    val issueList: List<Issue>,
+    val issueList: ArrayList<Issue>,
     val nextPageUrl: String,
     val nextPublishTime: Long,
     val newestIssueType: String
@@ -17,7 +17,7 @@ data class HomeBean(
         val type: String,
         val date: Long,
         val publishTime: Long,
-        val itemList: List<HomeItem>,
+        val itemList: ArrayList<HomeItem>,
         val count: Int
     ) {
         data class HomeItem(val type: String, val data: HomeData, val tag: Any, val id: Int, val adIndex: Int) {
@@ -27,7 +27,7 @@ data class HomeBean(
                 val title: String,
                 val description: String,
                 val library: String,
-                val tags: List<HomeTag>,
+                val tags: ArrayList<HomeTag>,
                 val consumption: HomeConsumption,
                 val resourceType: String,
                 val slogan: String,
@@ -40,7 +40,7 @@ data class HomeBean(
                 val duration: Long,
                 val webUrl: HomeWebUrl,
                 val releaseTime: Long,
-                val playInfo: List<HomePlayInfo>,
+                val playInfo: ArrayList<HomePlayInfo>,
                 val date: Long,
                 val descriptionEditor: String,
                 val collected: Boolean,
@@ -85,7 +85,7 @@ data class HomeBean(
                     val name: String,
                     val type: String,
                     val url: String,
-                    val urlList: List<HomeUrl>
+                    val urlList: ArrayList<HomeUrl>
                 ){
                     data class HomeUrl(val name: String, val url: String, val size: Long)
                 }

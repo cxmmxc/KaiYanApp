@@ -4,6 +4,7 @@ import com.terry.kaiyan.mvp.model.Bean.HomeBean
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 /**
  * 作者：Terry.CHen
@@ -15,4 +16,7 @@ interface ApiService {
 
     @GET("v2/feed?")
     fun getBannerData(@Query("num") num:Int):Observable<HomeBean>
+
+    @GET
+    fun getMoreData(@Url url:String):Observable<HomeBean>
 }

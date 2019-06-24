@@ -24,11 +24,6 @@ import io.reactivex.Observable
 class HomeModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), HomeContract.Model {
-    override fun getHomeBanner(num: Int): Observable<HomeBean> {
-        return mRepositoryManager
-            .obtainRetrofitService(ApiService::class.java)
-            .getBannerData(num)
-    }
 
     @Inject
     lateinit var mGson: Gson;

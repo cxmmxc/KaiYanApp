@@ -6,6 +6,7 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
@@ -17,6 +18,8 @@ import com.terry.kaiyan.mvp.contract.DailyContract
 import com.terry.kaiyan.mvp.presenter.DailyPresenter
 
 import com.terry.kaiyan.R
+import com.terry.kaiyan.mvp.model.Bean.HomeBean
+import kotlinx.android.synthetic.main.fragment_daily.*
 
 
 /**
@@ -25,7 +28,10 @@ import com.terry.kaiyan.R
  * Email:chenxinming@antelop.cloud
  * Description:
  */
-class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View {
+class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeRefreshLayout.OnRefreshListener {
+
+
+
     companion object {
         fun newInstance(): DailyFragment {
             val fragment = DailyFragment()
@@ -48,7 +54,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-
+        dailySwipeLayout.setOnRefreshListener(this)
     }
 
     override fun setData(data: Any?) {
@@ -72,6 +78,23 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View {
     }
 
     override fun killMyself() {
+
+    }
+
+    override fun onRefresh() {
+
+    }
+    override fun getHomeBannerFail() {
+    }
+
+    override fun getHomeBannerSuccess(homeBean: HomeBean?) {
+    }
+
+    override fun getHomeListSuccess(homeBean: HomeBean?) {
+
+    }
+
+    override fun getHomeListFail() {
 
     }
 }
