@@ -99,10 +99,4 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
         finish()
     }
 
-    override fun getHomeBannerSuccess(homeBean: HomeBean) {
-
-    }
-
-    override fun getHomeBannerFail() {
-    }
 }

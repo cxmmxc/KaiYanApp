@@ -17,6 +17,7 @@ import me.jessyan.rxerrorhandler.handler.RetryWithDelay
 import retrofit2.http.Url
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 /**
@@ -44,19 +45,19 @@ constructor(model: DailyContract.Model, rootView: DailyContract.View) :
         super.onDestroy()
     }
 
-    private var bannerHomeBean:HomeBean ?= null
+    private val bannerItemList:ArrayList<HomeBean.Issue.HomeItem> = ArrayList()
 
     fun getDailyFirstData() {
         mModel.getHomeBanner(1)
-            .flatMap { homeBean: HomeBean ->
+            .flatMap { homeBean ->
                 val bannerList = homeBean.issueList[0].itemList
+                bannerItemList.clear()
                 bannerList.filter {
-                    !Objects.equals(it.type, "video")
+                    it.type =="video"
                 }.forEach {
-                    bannerList.remove(it)
+                    bannerItemList.add(it)
                 }
-                bannerHomeBean = homeBean
-                return@flatMap mModel.getMoreData(homeBean.nextPageUrl)
+                mModel.getMoreData(homeBean.nextPageUrl)
             }
             .subscribeOn(Schedulers.io())
             .retryWhen(RetryWithDelay(1,2))
@@ -73,8 +74,15 @@ constructor(model: DailyContract.Model, rootView: DailyContract.View) :
             }
             .subscribe(object : ErrorHandleSubscriber<HomeBean>(mErrorHandler){
                 override fun onNext(t: HomeBean) {
-                    mRootView.getHomeBannerSuccess(bannerHomeBean)
-                    mRootView.getHomeListSuccess(t)
+                    mRootView.getHomeBannerSuccess(bannerItemList)
+                    val tItemList = t.issueList[0].itemList
+                    val newItemList = ArrayList<HomeBean.Issue.HomeItem>()
+                    tItemList.filter {
+                        it.type == "video" || it.type == "textHeader"
+                    }.forEach {
+                        newItemList.add(it)
+                    }
+                    mRootView.getHomeListSuccess(newItemList)
                 }
 
             })

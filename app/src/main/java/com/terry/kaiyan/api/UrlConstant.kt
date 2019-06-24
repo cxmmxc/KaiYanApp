@@ -7,5 +7,5 @@ package com.terry.kaiyan.api
  * 描述：TODO
  */
 object UrlConstant {
-    const val BASE_URL = "http://baobab.kaiyanapp.com/api"
+    const val BASE_URL = "http://baobab.kaiyanapp.com/api/"
 }
