@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LogUtils
 
 import com.terry.kaiyan.di.component.DaggerDailyComponent
 import com.terry.kaiyan.di.module.DailyModule
@@ -179,7 +180,6 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         dailySwipeLayout.isRefreshing = false
         bannerAdapter.setNewData(homeBean)
         delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
-        dailyRecyclerView.requestLayout()
     }
 
     override fun getHomeListSuccess(refresh: Boolean, homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {

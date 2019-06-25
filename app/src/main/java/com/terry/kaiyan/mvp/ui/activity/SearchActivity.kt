@@ -46,7 +46,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
     }
 
     private fun setUpEnterAnim() {
-        val transient = TransitionInflater.from(this).inflateTransition(android.R.transition.move)
+        val transient = TransitionInflater.from(this).inflateTransition(R.transition.arc_motion)
         window.sharedElementEnterTransition = transient
         transient.addListener(object : Transition.TransitionListener{
             override fun onTransitionEnd(transition: Transition?) {
