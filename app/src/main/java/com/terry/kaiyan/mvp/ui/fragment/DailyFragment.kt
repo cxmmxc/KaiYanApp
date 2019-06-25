@@ -2,10 +2,13 @@ package com.terry.kaiyan.mvp.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +28,13 @@ import com.terry.kaiyan.mvp.presenter.DailyPresenter
 
 import com.terry.kaiyan.R
 import com.terry.kaiyan.mvp.model.Bean.HomeBean
+import com.terry.kaiyan.mvp.ui.activity.SearchActivity
 import com.terry.kaiyan.mvp.ui.adapter.DailyBannerAdapter
 import com.terry.kaiyan.mvp.ui.adapter.DailyHomeAdapter
+import com.terry.kaiyan.utils.getStatusBarHeight
 import kotlinx.android.synthetic.main.fragment_daily.*
 import kotlinx.android.synthetic.main.item_daily_banner.view.*
+import kotlinx.android.synthetic.main.item_daily_list.*
 
 
 /**
@@ -37,13 +43,17 @@ import kotlinx.android.synthetic.main.item_daily_banner.view.*
  * Email:chenxinming@antelop.cloud
  * Description:
  */
-class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeRefreshLayout.OnRefreshListener {
+class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeRefreshLayout.OnRefreshListener,
+    BaseQuickAdapter.RequestLoadMoreListener {
 
-    private var mAdapter:DailyHomeAdapter ?= null
-    private lateinit var layoutManager:RecyclerView.LayoutManager
-    private lateinit var bannerAdapter:DailyBannerAdapter
+    private var mAdapter: DailyHomeAdapter? = null
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var bannerAdapter: DailyBannerAdapter
+    private lateinit var bannerView: View
 
     companion object {
+        const val AUTO_SCROLL_DELAY = 3000L
+        const val AUTO_SCROLL_WHAT = 1
         fun newInstance(): DailyFragment {
             val fragment = DailyFragment()
             return fragment
@@ -66,21 +76,70 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
 
     override fun initData(savedInstanceState: Bundle?) {
         dailySwipeLayout.setOnRefreshListener(this)
-        mAdapter = DailyHomeAdapter(context!!)
+        dailySwipeLayout.setColorSchemeResources(
+            android.R.color.holo_blue_light,
+            android.R.color.holo_red_light, android.R.color.holo_orange_light,
+            android.R.color.holo_green_light
+        )
+        mAdapter = DailyHomeAdapter(context)
         layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         dailyRecyclerView.layoutManager = layoutManager
         dailyRecyclerView.itemAnimator = DefaultItemAnimator()
         dailyRecyclerView.adapter = mAdapter
         inflateHeader()
         dailyRecyclerView.postDelayed({ onRefresh() }, 150)
+        mAdapter?.setOnLoadMoreListener(this, dailyRecyclerView)
+        activity.let {
+            var statusBarHeight = getStatusBarHeight(context)
+            val lp = toolbar?.layoutParams
+            if (lp != null && lp.height > 0) {
+                lp.height += statusBarHeight
+            }
+            toolbar.setPadding(0, statusBarHeight, 0, 0)
+        }
+        dailyRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+                if (firstVisiblePosition == 0) {
+                    toolbar.setBackgroundColor(resources.getColor(R.color.transparent))
+                    dailyTitleSearchIv.setImageResource(R.drawable.ic_action_search_white)
+                    dailyTitleTv.text = ""
+                } else {
+                    val item = mAdapter?.getItem(firstVisiblePosition - 1)
+                    toolbar.setBackgroundColor(resources.getColor(R.color.color_title_bg))
+                    dailyTitleSearchIv.setImageResource(R.drawable.ic_action_search_black)
+                    if (item?.type == "textHeader") {
+                        dailyTitleTv.text = item.data.text
+                    }
+                }
+            }
+        })
+        dailyTitleSearchIv.setOnClickListener {
+            activity?.let {
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    it,
+                    dailyTitleSearchIv,
+                    dailyTitleSearchIv.transitionName
+                )
+                startActivity(Intent(it, SearchActivity::class.java), options.toBundle())
+            }
+        }
     }
 
     private fun inflateHeader() {
-        val view:View = layoutInflater.inflate(R.layout.item_daily_banner,null)
+        bannerView = layoutInflater.inflate(R.layout.item_daily_banner, null)
         bannerAdapter = DailyBannerAdapter(activity!!)
-        view.dailyViewPager.adapter = bannerAdapter
-        view.dailyViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        mAdapter?.addHeaderView(view)
+        bannerView.dailyViewPager.adapter = bannerAdapter
+        bannerView.dailyViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        mAdapter?.addHeaderView(bannerView)
+        bannerView.dailyViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val item = bannerAdapter.getItem(position)
+                bannerView.bannerTitle.text = item?.data?.title
+            }
+        })
     }
 
     override fun setData(data: Any?) {
@@ -108,9 +167,10 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     }
 
     override fun onRefresh() {
-        dailySwipeLayout.isRefreshing =true
+        dailySwipeLayout.isRefreshing = true
         mPresenter?.getDailyFirstData()
     }
+
     override fun getHomeBannerFail() {
         dailySwipeLayout.isRefreshing = false
     }
@@ -118,14 +178,58 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     override fun getHomeBannerSuccess(homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {
         dailySwipeLayout.isRefreshing = false
         bannerAdapter.setNewData(homeBean)
-        bannerAdapter.notifyDataSetChanged()
+        delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
+        dailyRecyclerView.requestLayout()
     }
 
-    override fun getHomeListSuccess(homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {
-        mAdapter?.addData(homeBean!!)
+    override fun getHomeListSuccess(refresh: Boolean, homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {
+        if (refresh) {
+            dailySwipeLayout.isRefreshing = false
+            mAdapter?.setNewData(homeBean)
+        } else {
+            mAdapter?.addData(homeBean!!)
+            if (homeBean == null || homeBean.size == 0) {
+                mAdapter?.loadMoreEnd(false)
+            } else {
+                mAdapter?.loadMoreComplete()
+            }
+        }
     }
 
     override fun getHomeListFail() {
 
     }
+
+    override fun onLoadMoreRequested() {
+        mPresenter?.getDailyMoreData()
+    }
+
+
+    private val delayHandler: Handler = object : Handler(Looper.myLooper()) {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when (msg?.what) {
+                AUTO_SCROLL_WHAT -> {
+                    var currentPosition = bannerView.dailyViewPager.currentItem
+                    when {
+                        currentPosition + 1 == bannerAdapter.data.size -> {
+                            currentPosition = 0
+                            bannerView.dailyViewPager.setCurrentItem(currentPosition, false)
+                        }
+                        currentPosition + 1 < bannerAdapter.data.size -> {
+                            currentPosition += 1
+                            bannerView.dailyViewPager.currentItem = currentPosition
+                        }
+                    }
+                    sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
+                }
+            }
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        delayHandler.removeMessages(AUTO_SCROLL_WHAT)
+    }
+
 }

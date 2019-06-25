@@ -17,7 +17,7 @@ interface DailyContract {
     interface View : IView{
         fun getHomeBannerSuccess(homeBean: ArrayList<HomeBean.Issue.HomeItem>?)
         fun getHomeBannerFail()
-        fun getHomeListSuccess(homeBean: ArrayList<HomeBean.Issue.HomeItem>?)
+        fun getHomeListSuccess(refresh:Boolean, homeBean: ArrayList<HomeBean.Issue.HomeItem>?)
         fun getHomeListFail()
     }
 

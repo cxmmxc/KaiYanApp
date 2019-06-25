@@ -24,6 +24,9 @@ android {
             abiFilters 'armeabi', 'armeabi-v7a'
         }
         multiDexEnabled true
+        // 实现毛玻璃那种透明的效果需要添加的库
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true    // Enable RS support
     }
     buildTypes {
         debug {
@@ -71,4 +74,6 @@ dependencies {
     testImplementation rootProject.ext.dependencies["canary-release"]
     implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha05'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    //模糊透明 View
+    implementation 'com.github.mmin18:realtimeblurview:1.1.0'
 }

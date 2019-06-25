@@ -1,5 +1,7 @@
 package com.terry.kaiyan.mvp.model.Bean
 
+import com.chad.library.adapter.base.entity.MultiItemEntity
+
 /**
  * 作者：Terry.CHen
  * 创建日期：2019/06/22
@@ -20,8 +22,12 @@ data class HomeBean(
         val itemList: ArrayList<HomeItem>,
         val count: Int
     ) {
-        data class HomeItem(val type: String, val data: HomeData, val tag: Any, val id: Int, val adIndex: Int) {
+        data class HomeItem(val type: String, val data: HomeData, val tag: Any, val id: Int, val adIndex: Int, var itemTYpe:Int = 0) : MultiItemEntity{
+
+            override fun getItemType() = itemTYpe
+
             data class HomeData(
+                val text:String,
                 val dataType: String,
                 val id: Long,
                 val title: String,

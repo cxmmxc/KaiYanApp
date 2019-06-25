@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/color_696969"
                 tools:text="#广告"
                 />
@@ -51,10 +51,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:paddingLeft="10dip"
                 android:orientation="vertical"
                 android:layout_toLeftOf="@id/daily_type_tv"
                 android:layout_toRightOf="@id/daily_header_iv"
                 >
+
             <TextView
                     android:id="@+id/daily_description_tv"
                     android:layout_width="wrap_content"
@@ -62,6 +64,7 @@
                     android:textColor="@color/color_2121221"
                     android:textSize="12sp"
                     />
+
             <TextView
                     android:id="@+id/daily_tags_tv"
                     android:layout_width="wrap_content"
@@ -70,6 +73,14 @@
                     android:textColor="@color/color_696969"
                     android:textSize="10sp"/>
         </LinearLayout>
-
     </RelativeLayout>
+
+    <View
+            android:layout_width="0dip"
+            android:layout_height="1px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/color_E5E6EB"
+            />
 </androidx.constraintlayout.widget.ConstraintLayout>

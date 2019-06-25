@@ -6,8 +6,11 @@
     <color name="color_9A9A9A">#9a9a9a</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="color_title_bg">#CFFFFFFF</color>
-    <color name="color_10000000">#10000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_title_bg">#CCFFFFFF</color>
+    <color name="color_30FFFFFF">#30FFFFFF</color>
     <color name="color_2121221">#212121</color>
     <color name="color_696969">#696969</color>
+    <color name="color_E5E6EB">#E5E6EB</color>
+    <color name="color_EEEEEE">#EEEEEE</color>
 </resources>

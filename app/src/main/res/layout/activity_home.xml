@@ -6,7 +6,6 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00000000"
         tools:context=".mvp.ui.activity.HomeActivity">
 
     <androidx.viewpager2.widget.ViewPager2
@@ -19,14 +18,24 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+    <com.github.mmin18.widget.RealtimeBlurView
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:background="@color/color_title_bg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/nav_view"
+            app:layout_constraintTop_toTopOf="@id/nav_view"
+            />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dip"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            android:background="@color/color_title_bg"
-            app:itemIconSize="20dip"
+            android:background="@drawable/home_nav_bg"
+            app:itemIconSize="23dip"
             app:itemIconTint="@color/home_item_color_selector"
             app:itemTextAppearanceActive="@style/ItemActive"
             app:itemTextAppearanceInactive="@style/ItemInActive"

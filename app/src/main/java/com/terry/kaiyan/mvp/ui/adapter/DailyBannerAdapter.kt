@@ -31,8 +31,8 @@ class DailyBannerAdapter : BaseQuickAdapter<HomeBean.Issue.HomeItem, BaseViewHol
                 .url(item?.data?.cover?.feed)
                 .placeholder(R.drawable.placeholder_banner)
                 .imageView(helper?.getView(R.id.bannerImage))
+                .isCenterCrop(true)
                 .build()
         )
-        helper?.setText(R.id.bannerTitle, item?.data?.title)
     }
 }

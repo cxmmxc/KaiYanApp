@@ -40,6 +40,7 @@ constructor(model: DailyContract.Model, rootView: DailyContract.View) :
     @Inject
     lateinit var mAppManager: AppManager
 
+    lateinit var nextPageUrl:String
 
     override fun onDestroy() {
         super.onDestroy()
@@ -74,21 +75,55 @@ constructor(model: DailyContract.Model, rootView: DailyContract.View) :
             }
             .subscribe(object : ErrorHandleSubscriber<HomeBean>(mErrorHandler){
                 override fun onNext(t: HomeBean) {
-                    mRootView.getHomeBannerSuccess(bannerItemList)
                     val tItemList = t.issueList[0].itemList
                     val newItemList = ArrayList<HomeBean.Issue.HomeItem>()
                     tItemList.filter {
                         it.type == "video" || it.type == "textHeader"
                     }.forEach {
+                        if (it.type == "textHeader") {
+                            it.itemTYpe = 1
+                        }
                         newItemList.add(it)
                     }
-                    mRootView.getHomeListSuccess(newItemList)
+                    nextPageUrl = t.nextPageUrl
+                    mRootView.getHomeBannerSuccess(bannerItemList)
+                    mRootView.getHomeListSuccess(true, newItemList)
                 }
 
             })
     }
 
-    fun getDailyMoreData(url: String) {
+    fun getDailyMoreData() {
+        mModel.getMoreData(nextPageUrl)
+            .subscribeOn(Schedulers.io())
+            .retryWhen(RetryWithDelay(1,2))
+            .doOnSubscribe(object : Consumer<Disposable>{
+                override fun accept(t: Disposable?) {
+                    mRootView.showLoading()
+                }
+            })
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doFinally {
+                mRootView.hideLoading()
+            }
+            .subscribe(object : ErrorHandleSubscriber<HomeBean>(mErrorHandler){
+                override fun onNext(t: HomeBean) {
+                    val tItemList = t.issueList[0].itemList
+                    val newItemList = ArrayList<HomeBean.Issue.HomeItem>()
+                    tItemList.filter {
+                        it.type == "video" || it.type == "textHeader"
+                    }.forEach {
+                        if (it.type == "textHeader") {
+                            it.itemTYpe = 1
+                        }
+                        newItemList.add(it)
+                    }
+                    nextPageUrl = t.nextPageUrl
+                    mRootView.getHomeListSuccess(false, newItemList)
+                }
+
+            })
 
 
     }
