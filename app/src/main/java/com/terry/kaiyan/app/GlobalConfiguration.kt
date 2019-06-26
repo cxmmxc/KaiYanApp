@@ -2,6 +2,8 @@ package com.terry.kaiyan.app
 
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.jess.arms.base.delegate.AppLifecycles
 import com.jess.arms.di.module.GlobalConfigModule
@@ -22,7 +24,11 @@ class GlobalConfiguration : ConfigModule {
         context: Context?,
         lifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks>?
     ) {
-
+        lifecycles?.add(object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+                f.retainInstance = true
+            }
+        })
     }
 
     override fun applyOptions(context: Context?, builder: GlobalConfigModule.Builder?) {
@@ -44,6 +50,7 @@ class GlobalConfiguration : ConfigModule {
     }
 
     override fun injectAppLifecycle(context: Context?, lifecycles: MutableList<AppLifecycles>?) {
+        lifecycles?.add(AppLifecleImp())
     }
 
     override fun injectActivityLifecycle(

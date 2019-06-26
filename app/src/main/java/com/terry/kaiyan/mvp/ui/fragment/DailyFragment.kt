@@ -36,6 +36,9 @@ import com.terry.kaiyan.utils.getStatusBarHeight
 import kotlinx.android.synthetic.main.fragment_daily.*
 import kotlinx.android.synthetic.main.item_daily_banner.view.*
 import kotlinx.android.synthetic.main.item_daily_list.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -51,6 +54,9 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var bannerAdapter: DailyBannerAdapter
     private lateinit var bannerView: View
+    private val simpleDateFormat by lazy {
+        SimpleDateFormat("- MMM. dd, 'Brunch' -", Locale.ENGLISH)
+    }
 
     companion object {
         const val AUTO_SCROLL_DELAY = 3000L
@@ -76,6 +82,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+
         dailySwipeLayout.setOnRefreshListener(this)
         dailySwipeLayout.setColorSchemeResources(
             android.R.color.holo_blue_light,
@@ -96,7 +103,12 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
             if (lp != null && lp.height > 0) {
                 lp.height += statusBarHeight
             }
-            toolbar.setPadding(0, statusBarHeight, 0, 0)
+            toolbar.setPadding(
+                toolbar.paddingLeft,
+                toolbar.paddingTop + statusBarHeight,
+                toolbar.paddingRight,
+                toolbar.paddingRight
+            )
         }
         dailyRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -112,6 +124,8 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
                     dailyTitleSearchIv.setImageResource(R.drawable.ic_action_search_black)
                     if (item?.type == "textHeader") {
                         dailyTitleTv.text = item.data.text
+                    } else {
+                        dailyTitleTv.text = simpleDateFormat.format(item?.data?.date)
                     }
                 }
             }

@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_home.*
  */
 class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
 
-    private var mIndex:Int = 0
     private var homeAdapter:HomeAdapter ?= null
 
     override fun setupActivityComponent(appComponent: AppComponent) {
@@ -49,12 +48,11 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
         main_pager2.adapter = homeAdapter
         main_pager2.isUserInputEnabled = false
         main_pager2.offscreenPageLimit = 1
-        main_pager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-            }
-        })
+//        main_pager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//            }
+//        })
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

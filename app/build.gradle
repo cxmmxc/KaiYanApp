@@ -21,9 +21,9 @@ android {
         ndk {
 
             //APP的build.gradle设置支持的SO库架构
-            abiFilters 'armeabi', 'armeabi-v7a'
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86'
         }
-        multiDexEnabled true
+//        multiDexEnabled true
         // 实现毛玻璃那种透明的效果需要添加的库
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true    // Enable RS support
@@ -76,4 +76,5 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     //模糊透明 View
     implementation 'com.github.mmin18:realtimeblurview:1.1.0'
+    implementation rootProject.ext.dependencies['autodispose-android-archcomponents']
 }

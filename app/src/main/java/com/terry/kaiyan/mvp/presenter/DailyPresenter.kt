@@ -1,12 +1,16 @@
 package com.terry.kaiyan.mvp.presenter
 
 import android.app.Application
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.integration.AppManager
 import com.jess.arms.mvp.BasePresenter
 import com.terry.kaiyan.mvp.contract.DailyContract
 import com.terry.kaiyan.mvp.model.Bean.HomeBean
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
@@ -62,17 +66,11 @@ constructor(model: DailyContract.Model, rootView: DailyContract.View) :
             }
             .subscribeOn(Schedulers.io())
             .retryWhen(RetryWithDelay(1,2))
-            .doOnSubscribe(object : Consumer<Disposable>{
-                override fun accept(t: Disposable?) {
-                    mRootView.showLoading()
-                }
-
-            })
-            .subscribeOn(AndroidSchedulers.mainThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .doFinally {
-                mRootView.hideLoading()
-            }
+            .`as`(AutoDispose.autoDisposable(
+                AndroidLifecycleScopeProvider.from(
+                    mRootView as LifecycleOwner, Lifecycle.Event.ON_DESTROY
+                )))
             .subscribe(object : ErrorHandleSubscriber<HomeBean>(mErrorHandler){
                 override fun onNext(t: HomeBean) {
                     val tItemList = t.issueList[0].itemList
@@ -86,8 +84,8 @@ constructor(model: DailyContract.Model, rootView: DailyContract.View) :
                         newItemList.add(it)
                     }
                     nextPageUrl = t.nextPageUrl
-                    mRootView.getHomeBannerSuccess(bannerItemList)
                     mRootView.getHomeListSuccess(true, newItemList)
+                    mRootView.getHomeBannerSuccess(bannerItemList)
                 }
 
             })

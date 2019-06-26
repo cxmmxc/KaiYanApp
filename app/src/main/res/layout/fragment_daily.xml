@@ -15,18 +15,23 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dailyRecyclerView"
+        <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dailyRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+        </RelativeLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <androidx.appcompat.widget.Toolbar
+    <LinearLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -35,7 +40,7 @@
 
         <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="?actionBarSize">
 
             <TextView
                     android:id="@+id/dailyTitleTv"
@@ -60,5 +65,5 @@
                     tools:targetApi="lollipop"/>
         </RelativeLayout>
 
-    </androidx.appcompat.widget.Toolbar>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
