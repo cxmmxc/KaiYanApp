@@ -9,36 +9,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.BaseQuickAdapter
-
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
-import com.jess.arms.utils.LogUtils
-
+import com.terry.kaiyan.R
+import com.terry.kaiyan.app.OnPrepareListener
 import com.terry.kaiyan.di.component.DaggerDailyComponent
 import com.terry.kaiyan.di.module.DailyModule
 import com.terry.kaiyan.mvp.contract.DailyContract
-import com.terry.kaiyan.mvp.presenter.DailyPresenter
-
-import com.terry.kaiyan.R
 import com.terry.kaiyan.mvp.model.Bean.HomeBean
+import com.terry.kaiyan.mvp.presenter.DailyPresenter
 import com.terry.kaiyan.mvp.ui.activity.SearchActivity
 import com.terry.kaiyan.mvp.ui.adapter.DailyBannerAdapter
 import com.terry.kaiyan.mvp.ui.adapter.DailyHomeAdapter
 import com.terry.kaiyan.utils.getStatusBarHeight
 import kotlinx.android.synthetic.main.fragment_daily.*
 import kotlinx.android.synthetic.main.item_daily_banner.view.*
-import kotlinx.android.synthetic.main.item_daily_list.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -54,6 +48,8 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var bannerAdapter: DailyBannerAdapter
     private lateinit var bannerView: View
+    private var isFirstRefresh: Boolean = true
+
     private val simpleDateFormat by lazy {
         SimpleDateFormat("- MMM. dd, 'Brunch' -", Locale.ENGLISH)
     }
@@ -75,6 +71,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
             .dailyModule(DailyModule(this))
             .build()
             .inject(this)
+
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -86,7 +83,8 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         dailySwipeLayout.setOnRefreshListener(this)
         dailySwipeLayout.setColorSchemeResources(
             android.R.color.holo_blue_light,
-            android.R.color.holo_red_light, android.R.color.holo_orange_light,
+            android.R.color.holo_red_light,
+            android.R.color.holo_orange_light,
             android.R.color.holo_green_light
         )
         mAdapter = DailyHomeAdapter(context)
@@ -104,10 +102,10 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
                 lp.height += statusBarHeight
             }
             toolbar.setPadding(
-                toolbar.paddingLeft,
+               0,
                 toolbar.paddingTop + statusBarHeight,
-                toolbar.paddingRight,
-                toolbar.paddingRight
+                0,
+                0
             )
         }
         dailyRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -182,7 +180,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     }
 
     override fun onRefresh() {
-        dailySwipeLayout.isRefreshing = true
+        dailySwipeLayout?.isRefreshing = true
         mPresenter?.getDailyFirstData()
     }
 
@@ -194,6 +192,11 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         dailySwipeLayout.isRefreshing = false
         bannerAdapter.setNewData(homeBean)
         delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
+        if (isFirstRefresh) {
+            val newActivity = activity as OnPrepareListener
+            newActivity.prepare()
+            isFirstRefresh = false
+        }
     }
 
     override fun getHomeListSuccess(refresh: Boolean, homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {

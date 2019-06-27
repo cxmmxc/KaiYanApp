@@ -2,16 +2,15 @@ package com.terry.kaiyan.mvp.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.terry.kaiyan.R
+import com.terry.kaiyan.app.OnPrepareListener
 import com.terry.kaiyan.di.component.DaggerHomeComponent
 import com.terry.kaiyan.di.module.HomeModule
 import com.terry.kaiyan.mvp.contract.HomeContract
-import com.terry.kaiyan.mvp.model.Bean.HomeBean
 import com.terry.kaiyan.mvp.presenter.HomePresenter
 import com.terry.kaiyan.mvp.ui.adapter.HomeAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -23,7 +22,10 @@ import kotlinx.android.synthetic.main.activity_home.*
  * Email:chenxinming@antelop.cloud
  * Description:
  */
-class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
+class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View , OnPrepareListener {
+    override fun prepare() {
+        homeAdapter?.notifyItemChanged(0)
+    }
 
     private var homeAdapter:HomeAdapter ?= null
 
@@ -48,11 +50,6 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
         main_pager2.adapter = homeAdapter
         main_pager2.isUserInputEnabled = false
         main_pager2.offscreenPageLimit = 1
-//        main_pager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//            }
-//        })
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
