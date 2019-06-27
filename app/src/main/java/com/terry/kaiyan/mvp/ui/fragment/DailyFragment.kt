@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import android.transition.Slide
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jess.arms.base.BaseFragment
@@ -138,6 +140,11 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
                 startActivity(Intent(it, SearchActivity::class.java), options.toBundle())
             }
         }
+        val sl = Slide()
+        sl.duration = 500
+        sl.slideEdge = Gravity.LEFT
+        activity?.window?.reenterTransition = sl
+        activity?.window?.exitTransition = sl
     }
 
     private fun inflateHeader() {
@@ -192,11 +199,11 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         dailySwipeLayout.isRefreshing = false
         bannerAdapter.setNewData(homeBean)
         delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
-        if (isFirstRefresh) {
+        /*if (isFirstRefresh) {
             val newActivity = activity as OnPrepareListener
             newActivity.prepare()
             isFirstRefresh = false
-        }
+        }*/
     }
 
     override fun getHomeListSuccess(refresh: Boolean, homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {
