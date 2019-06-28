@@ -118,6 +118,10 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
                     toolbar.setBackgroundColor(resources.getColor(R.color.transparent))
                     dailyTitleSearchIv.setImageResource(R.drawable.ic_action_search_white)
                     dailyTitleTv.text = ""
+                    val hasMessage = delayHandler.hasMessages(AUTO_SCROLL_WHAT)
+                    if (!hasMessage) {
+                        delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
+                    }
                 } else {
                     val item = mAdapter?.getItem(firstVisiblePosition - 1)
                     toolbar.setBackgroundColor(resources.getColor(R.color.color_title_bg))
@@ -126,6 +130,10 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
                         dailyTitleTv.text = item.data.text
                     } else {
                         dailyTitleTv.text = simpleDateFormat.format(item?.data?.date)
+                    }
+                    val hasMessage = delayHandler.hasMessages(AUTO_SCROLL_WHAT)
+                    if (hasMessage) {
+                        delayHandler.removeMessages(AUTO_SCROLL_WHAT)
                     }
                 }
             }
@@ -142,7 +150,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         }
         val sl = Slide()
         sl.duration = 500
-        sl.slideEdge = Gravity.LEFT
+        sl.slideEdge = Gravity.START
         activity?.window?.reenterTransition = sl
         activity?.window?.exitTransition = sl
     }
@@ -199,11 +207,11 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         dailySwipeLayout.isRefreshing = false
         bannerAdapter.setNewData(homeBean)
         delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
-        /*if (isFirstRefresh) {
+        if (isFirstRefresh) {
             val newActivity = activity as OnPrepareListener
             newActivity.prepare()
             isFirstRefresh = false
-        }*/
+        }
     }
 
     override fun getHomeListSuccess(refresh: Boolean, homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {
@@ -254,6 +262,18 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     override fun onDetach() {
         super.onDetach()
         delayHandler.removeMessages(AUTO_SCROLL_WHAT)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        delayHandler.removeMessages(AUTO_SCROLL_WHAT)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!bannerAdapter.data.isEmpty()) {
+            delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
+        }
     }
 
 }
