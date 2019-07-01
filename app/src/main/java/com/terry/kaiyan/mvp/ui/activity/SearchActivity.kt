@@ -20,7 +20,10 @@ import com.terry.kaiyan.di.component.DaggerSearchComponent
 import com.terry.kaiyan.di.module.SearchModule
 import com.terry.kaiyan.mvp.contract.SearchContract
 import com.terry.kaiyan.mvp.presenter.SearchPresenter
+import com.terry.kaiyan.utils.getStatusBarHeight
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.activity_search.toolbar
+import kotlinx.android.synthetic.main.fragment_daily.*
 
 
 /**
@@ -47,6 +50,19 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
 
     override fun initData(savedInstanceState: Bundle?) {
+        this.let {
+            var statusBarHeight = getStatusBarHeight(this)
+            val lp = toolbar?.layoutParams
+            if (lp != null && lp.height > 0) {
+                lp.height += statusBarHeight
+            }
+            toolbar.setPadding(
+                0,
+                toolbar.paddingTop + statusBarHeight,
+                0,
+                0
+            )
+        }
         setUpEnterAnim()
         setExitAnim()
 
