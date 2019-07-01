@@ -1,10 +1,12 @@
 package com.terry.kaiyan.mvp.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.transition.*
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +16,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import android.transition.Slide
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jess.arms.base.BaseFragment
@@ -32,6 +33,7 @@ import com.terry.kaiyan.mvp.ui.adapter.DailyBannerAdapter
 import com.terry.kaiyan.mvp.ui.adapter.DailyHomeAdapter
 import com.terry.kaiyan.utils.getStatusBarHeight
 import kotlinx.android.synthetic.main.fragment_daily.*
+import kotlinx.android.synthetic.main.fragment_daily.view.*
 import kotlinx.android.synthetic.main.item_daily_banner.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -150,7 +152,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         }
         val sl = Slide()
         sl.duration = 500
-        sl.slideEdge = Gravity.START
+        sl.slideEdge = Gravity.LEFT
         activity?.window?.reenterTransition = sl
         activity?.window?.exitTransition = sl
     }
@@ -206,7 +208,6 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     override fun getHomeBannerSuccess(homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {
         dailySwipeLayout.isRefreshing = false
         bannerAdapter.setNewData(homeBean)
-        delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
         if (isFirstRefresh) {
             val newActivity = activity as OnPrepareListener
             newActivity.prepare()
@@ -264,14 +265,15 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         delayHandler.removeMessages(AUTO_SCROLL_WHAT)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         delayHandler.removeMessages(AUTO_SCROLL_WHAT)
     }
 
     override fun onResume() {
         super.onResume()
-        if (!bannerAdapter.data.isEmpty()) {
+        if (bannerAdapter.data.isNotEmpty()) {
+            delayHandler.removeMessages(AUTO_SCROLL_WHAT)
             delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)
         }
     }

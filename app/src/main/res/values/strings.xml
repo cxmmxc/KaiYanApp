@@ -5,4 +5,6 @@
     <string name="title_hot">热门</string>
     <string name="title_mine">我的</string>
     <string name="search_transition_name">transition_reveal</string>
+    <string name="cancel">取消</string>
+    <string name="hint_search_keyword">输入标题或描述中的关键词找更多视频</string>
 </resources>
