@@ -1,6 +1,7 @@
 package com.terry.kaiyan.mvp.ui.adapter
 
 import android.content.Context
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.jess.arms.http.imageloader.ImageLoader
@@ -18,9 +19,11 @@ import com.terry.kaiyan.mvp.model.Bean.HomeBean
 class DailyBannerAdapter : BaseQuickAdapter<HomeBean.Issue.HomeItem, BaseViewHolder> {
 
     private lateinit var mImageLoader: ImageLoader
+    private lateinit var context: Context
 
     constructor(context: Context) : super(R.layout.item_banner_image) {
         mImageLoader = ArmsUtils.obtainAppComponentFromContext(context).imageLoader()
+        this.context = context
     }
 
 
@@ -34,5 +37,13 @@ class DailyBannerAdapter : BaseQuickAdapter<HomeBean.Issue.HomeItem, BaseViewHol
                 .isCenterCrop(true)
                 .build()
         )
+
+        helper?.itemView?.setOnClickListener {
+            gotoVideoDetailActivity(context, helper.getView(R.id.bannerImage), item)
+        }
+    }
+
+    private fun gotoVideoDetailActivity(context: Context, view: View, item:HomeBean.Issue.HomeItem?) {
+
     }
 }
