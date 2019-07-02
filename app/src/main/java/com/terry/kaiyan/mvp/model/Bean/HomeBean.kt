@@ -20,7 +20,9 @@ data class HomeBean(
         val date: Long,
         val publishTime: Long,
         val itemList: ArrayList<HomeItem>,
-        val count: Int
+        val count: Int,
+        val nextPageUrl: String,
+        val total:Int
     ) {
         data class HomeItem(val type: String, val data: HomeData, val tag: Any, val id: Int, val adIndex: Int, var itemTYpe:Int = 0) : MultiItemEntity{
 

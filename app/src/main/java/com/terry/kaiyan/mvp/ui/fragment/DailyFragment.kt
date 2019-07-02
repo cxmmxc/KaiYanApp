@@ -153,6 +153,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
         val sl = Slide()
         sl.duration = 500
         sl.slideEdge = Gravity.LEFT
+        sl.excludeTarget(R.id.toolbar, true)
         activity?.window?.reenterTransition = sl
         activity?.window?.exitTransition = sl
     }

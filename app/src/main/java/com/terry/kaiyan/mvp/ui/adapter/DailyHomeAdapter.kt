@@ -10,6 +10,7 @@ import com.jess.arms.http.imageloader.glide.ImageConfigImpl
 import com.jess.arms.utils.ArmsUtils
 import com.terry.kaiyan.R
 import com.terry.kaiyan.mvp.model.Bean.HomeBean
+import com.terry.kaiyan.utils.durationFormat
 
 /**
  * Author:ChenXinming
@@ -50,7 +51,7 @@ class DailyHomeAdapter : BaseMultiItemQuickAdapter<HomeBean.Issue.HomeItem, Base
                 item.data.tags.take(4).forEach {
                     tagText += it.name + "/"
                 }
-                var timeDuration =durationFormat(item.data.duration)
+                var timeDuration = durationFormat(item.data.duration)
                 tagText += timeDuration
                 helper.setText(R.id.daily_tags_tv, tagText)
                 helper.setText(R.id.daily_type_tv, "#${item.data.category}")
@@ -62,22 +63,4 @@ class DailyHomeAdapter : BaseMultiItemQuickAdapter<HomeBean.Issue.HomeItem, Base
 
     }
 
-    private fun durationFormat(duration: Long): String {
-        val minute = duration/60
-        val second = duration % 60
-        return if (minute <= 9) {
-            if (second <= 9) {
-                "0$minute' 0$second''"
-            } else {
-                "0$minute' $second''"
-            }
-        } else {
-            if (second <= 9) {
-                "$minute' 0$second''"
-            } else {
-                "$minute' $second''"
-            }
-        }
-
-    }
 }

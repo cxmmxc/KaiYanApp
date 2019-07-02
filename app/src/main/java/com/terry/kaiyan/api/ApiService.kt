@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Url
 
@@ -21,4 +22,13 @@ interface ApiService {
 
     @GET
     fun getMoreData(@Url url:String):Observable<HomeBean>
+
+    @GET("v3/queries/hot")
+    fun getHotWords():Observable<ArrayList<String>>
+
+    @GET("v1/search")
+    fun getSearchHots(@Query("num") num:Int,@Query("start") start:Int,@Query("query") query:String):Observable<HomeBean.Issue>
+
+    @GET
+    fun getSearchMoreHots(@Url url:String):Observable<HomeBean.Issue>
 }
