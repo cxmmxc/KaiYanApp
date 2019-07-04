@@ -17,9 +17,6 @@ import com.terry.kaiyan.mvp.contract.DicoverContract
 import com.terry.kaiyan.mvp.presenter.DicoverPresenter
 
 import com.terry.kaiyan.R
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -33,8 +30,7 @@ import java.util.concurrent.TimeUnit
 class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View {
     companion object {
         fun newInstance(): DiscoverFragment {
-            val fragment = DiscoverFragment()
-            return fragment
+            return DiscoverFragment()
         }
     }
 
@@ -54,19 +50,6 @@ class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View 
 
     override fun initData(savedInstanceState: Bundle?) {
         LogUtils.debugInfo("cxm", "DiscoverFragment")
-    }
-    suspend fun getDiscover():String{
-        var okHttp = OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(true)
-                .build()
-        val request = Request.Builder()
-                .url("http://baobab.kaiyanapp.com/api/v3/queries/hot")
-                .get()
-                .build()
-        val response = okHttp.newCall(request).execute()
-        LogUtils.debugInfo("cxm", "suspend --- ${response.body()?.string()}")
-        return response.message()
     }
 
     override fun setData(data: Any?) {

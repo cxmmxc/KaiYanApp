@@ -1,12 +1,11 @@
 package com.terry.kaiyan.mvp.ui.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.transition.*
+import android.transition.Slide
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +21,6 @@ import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.terry.kaiyan.R
-import com.terry.kaiyan.app.OnPrepareListener
 import com.terry.kaiyan.di.component.DaggerDailyComponent
 import com.terry.kaiyan.di.module.DailyModule
 import com.terry.kaiyan.mvp.contract.DailyContract
@@ -33,7 +31,6 @@ import com.terry.kaiyan.mvp.ui.adapter.DailyBannerAdapter
 import com.terry.kaiyan.mvp.ui.adapter.DailyHomeAdapter
 import com.terry.kaiyan.utils.getStatusBarHeight
 import kotlinx.android.synthetic.main.fragment_daily.*
-import kotlinx.android.synthetic.main.fragment_daily.view.*
 import kotlinx.android.synthetic.main.item_daily_banner.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,7 +49,6 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var bannerAdapter: DailyBannerAdapter
     private lateinit var bannerView: View
-    private var isFirstRefresh: Boolean = true
 
     private val simpleDateFormat by lazy {
         SimpleDateFormat("- MMM. dd, 'Brunch' -", Locale.ENGLISH)
@@ -209,11 +205,6 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
     override fun getHomeBannerSuccess(homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {
         dailySwipeLayout.isRefreshing = false
         bannerAdapter.setNewData(homeBean)
-        if (isFirstRefresh) {
-            val newActivity = activity as OnPrepareListener
-            newActivity.prepare()
-            isFirstRefresh = false
-        }
     }
 
     override fun getHomeListSuccess(refresh: Boolean, homeBean: ArrayList<HomeBean.Issue.HomeItem>?) {

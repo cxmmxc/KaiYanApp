@@ -27,8 +27,7 @@ import com.terry.kaiyan.mvp.presenter.MinePresenter
 class MineFragment : BaseFragment<MinePresenter>(), MineContract.View {
     companion object {
         fun newInstance(): MineFragment {
-            val fragment = MineFragment()
-            return fragment
+            return MineFragment()
         }
     }
 

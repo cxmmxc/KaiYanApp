@@ -7,7 +7,6 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.terry.kaiyan.R
-import com.terry.kaiyan.app.OnPrepareListener
 import com.terry.kaiyan.di.component.DaggerHomeComponent
 import com.terry.kaiyan.di.module.HomeModule
 import com.terry.kaiyan.mvp.contract.HomeContract
@@ -22,10 +21,7 @@ import kotlinx.android.synthetic.main.activity_home.*
  * Email:chenxinming@antelop.cloud
  * Description:
  */
-class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View , OnPrepareListener {
-    override fun prepare() {
-        homeAdapter?.notifyItemChanged(0)
-    }
+class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
 
     private var homeAdapter:HomeAdapter ?= null
 
@@ -49,7 +45,7 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View , OnPrepar
         homeAdapter = HomeAdapter(this)
         main_pager2.adapter = homeAdapter
         main_pager2.isUserInputEnabled = false
-        main_pager2.offscreenPageLimit = 1
+        main_pager2.offscreenPageLimit = 3
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

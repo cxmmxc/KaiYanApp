@@ -2,10 +2,11 @@ package com.terry.kaiyan.mvp.ui.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.terry.kaiyan.mvp.ui.fragment.*
+import com.terry.kaiyan.mvp.ui.fragment.DailyFragment
+import com.terry.kaiyan.mvp.ui.fragment.DiscoverFragment
+import com.terry.kaiyan.mvp.ui.fragment.HotFragment
+import com.terry.kaiyan.mvp.ui.fragment.MineFragment
 
 /**
  * Author:ChenXinming

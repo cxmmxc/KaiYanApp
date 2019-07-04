@@ -27,8 +27,7 @@ import com.terry.kaiyan.mvp.presenter.HotPresenter
 class HotFragment : BaseFragment<HotPresenter>(), HotContract.View {
     companion object {
         fun newInstance(): HotFragment {
-            val fragment = HotFragment()
-            return fragment
+            return HotFragment()
         }
     }
 
