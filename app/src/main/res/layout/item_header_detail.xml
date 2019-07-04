@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+  <com.terry.kaiyan.widget.TyperTextView
+      android:id="@+id/detailTitleTv"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dip"
+      android:textColor="@color/white"
+      android:textSize="18sp"
+      />
+
+  <com.terry.kaiyan.widget.TyperTextView
+      android:id="@+id/tagTitleTv"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dip"
+      android:textColor="@color/white"
+      android:textSize="14sp"
+      />
+
+  <com.terry.kaiyan.widget.TyperTextView
+      android:id="@+id/descriptionTitleTv"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dip"
+      android:textColor="@color/white"
+      android:textSize="14sp"
+      />
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dip"
+      android:layout_marginBottom="10dip"
+      android:orientation="horizontal"
+      >
+    <TextView
+        android:id="@+id/detailLikeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/detailShareTv"
+        android:drawableLeft="@drawable/ic_detail_like"
+        />
+    <TextView
+        android:id="@+id/detailShareTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/detailLikeTv"
+        app:layout_constraintRight_toLeftOf="@id/detailReplyTv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:drawableLeft="@drawable/ic_detail_share"
+        />
+    <TextView
+        android:id="@+id/detailReplyTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/detailShareTv"
+        app:layout_constraintRight_toLeftOf="@id/detailDownTv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:drawableLeft="@drawable/ic_detail_reply"
+        />
+    <TextView
+        android:id="@+id/detailDownTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/detailReplyTv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:drawableLeft="@drawable/ic_detail_download"
+        />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

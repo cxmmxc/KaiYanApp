@@ -1,6 +1,8 @@
 package com.terry.kaiyan.mvp.model.Bean
 
+import android.os.Parcelable
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import java.io.Serializable
 
 /**
  * 作者：Terry.CHen
@@ -24,7 +26,7 @@ data class HomeBean(
         val nextPageUrl: String,
         val total:Int
     ) {
-        data class HomeItem(val type: String, val data: HomeData, val tag: Any, val id: Int, val adIndex: Int, var itemTYpe:Int = 0) : MultiItemEntity{
+        data class HomeItem(val type: String, val data: HomeData, val tag: Any, val id: Int, val adIndex: Int, var itemTYpe:Int = 0) : MultiItemEntity, Serializable{
 
             override fun getItemType() = itemTYpe
 
@@ -53,7 +55,7 @@ data class HomeBean(
                 val descriptionEditor: String,
                 val collected: Boolean,
                 val played: Boolean
-            ){
+            ):Serializable{
                 data class HomeTag(
                     val id: Int,
                     val name: String,
@@ -64,9 +66,9 @@ data class HomeBean(
                     val tagRecType: String,
                     val communityIndex: Int
 
-                )
-                data class HomeConsumption(val collectionCount: Int, val shareCount: Int, val replyCount: Int)
-                data class HomeProvider(val name:String, val alias:String, val icon:String)
+                ):Serializable
+                data class HomeConsumption(val collectionCount: Int, val shareCount: Int, val replyCount: Int):Serializable
+                data class HomeProvider(val name:String, val alias:String, val icon:String):Serializable
                 data class HomeAuthor(
                     val id: Int,
                     val icon: String,
@@ -80,13 +82,13 @@ data class HomeBean(
                     val ifPgc: Boolean,
                     val recSort: Int,
                     val expert: Boolean
-                ) {
-                    data class HomeFollow(val itemType: String, val itemId: Int, val followed: Boolean)
-                    data class HomeShield(val itemType:String, val itemId: Int, val shielded: Boolean)
+                ):Serializable {
+                    data class HomeFollow(val itemType: String, val itemId: Int, val followed: Boolean):Serializable
+                    data class HomeShield(val itemType:String, val itemId: Int, val shielded: Boolean):Serializable
 
                 }
-                data class HomeCover(val feed: String, val detail: String, val blurred: String, val homepage: String)
-                data class HomeWebUrl(val raw:String, val forWeibo:String)
+                data class HomeCover(val feed: String, val detail: String, val blurred: String, val homepage: String):Serializable
+                data class HomeWebUrl(val raw:String, val forWeibo:String):Serializable
                 data class HomePlayInfo(
                     val height: Int,
                     val width: Int,
@@ -94,8 +96,8 @@ data class HomeBean(
                     val type: String,
                     val url: String,
                     val urlList: ArrayList<HomeUrl>
-                ){
-                    data class HomeUrl(val name: String, val url: String, val size: Long)
+                ):Serializable{
+                    data class HomeUrl(val name: String, val url: String, val size: Long):Serializable
                 }
             }
         }

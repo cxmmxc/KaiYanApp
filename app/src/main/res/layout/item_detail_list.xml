@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="10dip"
+    android:paddingLeft="16dip"
+    android:paddingRight="16dip"
+    android:paddingBottom="10dip"
+    >
+  <ImageView
+      android:id="@+id/detailItemCoverIv"
+      android:layout_width="0dip"
+      android:layout_height="120dip"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintDimensionRatio="W,16:9"
+      />
+  <TextView
+      android:id="@+id/detailItemTitleTv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dip"
+      app:layout_constraintLeft_toRightOf="@id/detailItemCoverIv"
+      app:layout_constraintTop_toTopOf="@id/detailItemCoverIv"
+      />
+  <TextView
+      android:id="@+id/detailItemTagTv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="10dip"
+      app:layout_constraintLeft_toRightOf="@id/detailItemCoverIv"
+      app:layout_constraintBottom_toBottomOf="@id/detailItemCoverIv"
+      />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintRight_toRightOf="@id/detailItemCoverIv"
+      app:layout_constraintBottom_toBottomOf="@id/detailItemCoverIv"
+      android:layout_marginRight="10dip"
+      android:layout_marginBottom="10dip"
+      android:background="@drawable/shape_transparent_50_corner_5"
+      android:padding="5dip"
+      android:textSize="14sp"
+      android:textColor="@color/white"
+      tools:text="03:30"
+      />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

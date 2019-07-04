@@ -31,4 +31,7 @@ interface ApiService {
 
     @GET
     fun getSearchMoreHots(@Url url:String):Observable<HomeBean.Issue>
+
+    @GET("v4/video/related")
+    fun getRelated(@Query("id") id:Int):Observable<HomeBean.Issue>
 }

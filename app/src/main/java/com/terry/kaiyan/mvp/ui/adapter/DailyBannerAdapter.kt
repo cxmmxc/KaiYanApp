@@ -1,7 +1,9 @@
 package com.terry.kaiyan.mvp.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.jess.arms.http.imageloader.ImageLoader
@@ -9,6 +11,8 @@ import com.jess.arms.http.imageloader.glide.ImageConfigImpl
 import com.jess.arms.utils.ArmsUtils
 import com.terry.kaiyan.R
 import com.terry.kaiyan.mvp.model.Bean.HomeBean
+import com.terry.kaiyan.mvp.ui.activity.VIDEO_DETAIL_BEAN
+import com.terry.kaiyan.mvp.ui.activity.VideoDetailActivity
 
 /**
  * 作者：Terry.CHen
@@ -17,7 +21,6 @@ import com.terry.kaiyan.mvp.model.Bean.HomeBean
  * 描述：TODO
  */
 class DailyBannerAdapter : BaseQuickAdapter<HomeBean.Issue.HomeItem, BaseViewHolder> {
-
     private lateinit var mImageLoader: ImageLoader
     private lateinit var context: Context
 
@@ -44,6 +47,8 @@ class DailyBannerAdapter : BaseQuickAdapter<HomeBean.Issue.HomeItem, BaseViewHol
     }
 
     private fun gotoVideoDetailActivity(context: Context, view: View, item:HomeBean.Issue.HomeItem?) {
-
+        var intent = Intent(context, VideoDetailActivity::class.java)
+        intent.putExtra(VIDEO_DETAIL_BEAN, item)
+        context.startActivity(intent)
     }
 }

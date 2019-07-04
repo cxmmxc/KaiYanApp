@@ -7,6 +7,9 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import com.terry.kaiyan.R
+import com.terry.kaiyan.utils.getStatusBarHeight
+import kotlinx.android.synthetic.main.fragment_daily.toolbar
 
 /**
  * Author:ChenXinming
@@ -28,6 +31,20 @@ class ActivityLifeCallbackImp :Application.ActivityLifecycleCallbacks {
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN.or(View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
             activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             activity?.window?.statusBarColor = Color.TRANSPARENT
+        }
+        var rootDecorView = activity?.findViewById<View>(R.id.rootDecorView)
+        rootDecorView?.let {
+            var statusBarHeight = getStatusBarHeight(activity)
+            val lp = it.layoutParams
+            if (lp != null && lp.height > 0) {
+                lp.height += statusBarHeight
+            }
+            it.setPadding(
+                0,
+                it.paddingTop + statusBarHeight,
+                0,
+                0
+            )
         }
     }
 
