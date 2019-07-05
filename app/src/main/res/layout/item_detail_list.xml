@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="10dip"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detailItemRootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dip"
     android:paddingLeft="16dip"
     android:paddingRight="16dip"
-    android:paddingBottom="10dip"
+    android:paddingBottom="1dip"
     >
-  <ImageView
-      android:id="@+id/detailItemCoverIv"
+  <com.google.android.material.card.MaterialCardView
+      android:id="@+id/detailCardView"
       android:layout_width="0dip"
-      android:layout_height="120dip"
+      android:layout_height="90dip"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintDimensionRatio="W,16:9"
-      />
+      app:layout_constraintDimensionRatio="W,15:9"
+      app:cardCornerRadius="3dip"
+      app:cardElevation="0dip"
+      >
+    <ImageView
+        android:id="@+id/detailItemCoverIv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+  </com.google.android.material.card.MaterialCardView>
   <TextView
       android:id="@+id/detailItemTitleTv"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="10dip"
-      app:layout_constraintLeft_toRightOf="@id/detailItemCoverIv"
-      app:layout_constraintTop_toTopOf="@id/detailItemCoverIv"
+      android:textSize="14sp"
+      android:textColor="@color/white"
+      android:paddingLeft="10dip"
+      android:paddingTop="10dip"
+      app:layout_constraintLeft_toRightOf="@id/detailCardView"
+      app:layout_constraintTop_toTopOf="@id/detailCardView"
       />
   <TextView
       android:id="@+id/detailItemTagTv"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="10dip"
-      app:layout_constraintLeft_toRightOf="@id/detailItemCoverIv"
-      app:layout_constraintBottom_toBottomOf="@id/detailItemCoverIv"
+      android:paddingLeft="10dip"
+      android:textSize="12sp"
+      android:textColor="@color/white"
+      android:paddingBottom="10dip"
+      app:layout_constraintLeft_toRightOf="@id/detailCardView"
+      app:layout_constraintBottom_toBottomOf="@id/detailCardView"
       />
   <TextView
+      android:id="@+id/detailTimeTv"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      app:layout_constraintRight_toRightOf="@id/detailItemCoverIv"
-      app:layout_constraintBottom_toBottomOf="@id/detailItemCoverIv"
+      app:layout_constraintRight_toRightOf="@id/detailCardView"
+      app:layout_constraintBottom_toBottomOf="@id/detailCardView"
       android:layout_marginRight="10dip"
       android:layout_marginBottom="10dip"
       android:background="@drawable/shape_transparent_50_corner_5"

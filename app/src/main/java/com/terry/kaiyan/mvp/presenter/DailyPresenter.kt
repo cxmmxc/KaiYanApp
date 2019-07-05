@@ -105,6 +105,10 @@ constructor(model: DailyContract.Model, rootView: DailyContract.View) :
             .doFinally {
                 mRootView.hideLoading()
             }
+            .`as`(AutoDispose.autoDisposable(
+                AndroidLifecycleScopeProvider.from(
+                    mRootView as LifecycleOwner, Lifecycle.Event.ON_DESTROY
+                                                  )))
             .subscribe(object : ErrorHandleSubscriber<HomeBean>(mErrorHandler){
                 override fun onNext(t: HomeBean) {
                     val tItemList = t.issueList[0].itemList

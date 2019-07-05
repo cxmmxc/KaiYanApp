@@ -23,7 +23,7 @@ import io.reactivex.Observable
 class VideoDetailModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), VideoDetailContract.Model {
-    override fun getRelated(id: Int): Observable<Issue> {
+    override fun getRelated(id: Long?): Observable<Issue> {
         return mRepositoryManager
             .obtainRetrofitService(ApiService::class.java)
             .getRelated(id)

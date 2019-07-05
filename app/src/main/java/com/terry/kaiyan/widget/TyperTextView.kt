@@ -24,7 +24,7 @@ class TyperTextView @JvmOverloads constructor(
     private var content:String ?= null
     private var delayTime:Int = 10
 
-    public fun startStr(content: String?) {
+    fun startStr(content: String?) {
         if (content.isNullOrEmpty()) {
             return
         }
@@ -45,6 +45,7 @@ class TyperTextView @JvmOverloads constructor(
                 APPEND_WHAT -> {
                     if (currentIndex >= contentLength) {
                         removeMessages(APPEND_WHAT)
+                        currentIndex = 0
                         return
                     }
                     append(content?.subSequence(currentIndex, currentIndex+1))

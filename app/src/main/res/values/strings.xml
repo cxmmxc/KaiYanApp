@@ -10,4 +10,6 @@
     <string name="search">搜索</string>
     <string name="hint_search">帮你找到感兴趣的视频</string>
     <string name="hint_not_empty_keywords">请输入关键字搜索</string>
+    <string name="error_play_fail">播放失败</string>
+  <string name="video_cache">缓存</string>
 </resources>

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import com.terry.kaiyan.R
+import com.terry.kaiyan.mvp.ui.activity.VideoDetailActivity
 import com.terry.kaiyan.utils.getStatusBarHeight
 import kotlinx.android.synthetic.main.fragment_daily.toolbar
 
@@ -32,8 +33,14 @@ class ActivityLifeCallbackImp :Application.ActivityLifecycleCallbacks {
             activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             activity?.window?.statusBarColor = Color.TRANSPARENT
         }
-        var rootDecorView = activity?.findViewById<View>(R.id.rootDecorView)
-        rootDecorView?.let {
+        if (activity is VideoDetailActivity) {
+            var rootDecorView = activity?.findViewById<View>(R.id.videoPlayer)
+            expandToolbar(rootDecorView, activity)
+        }
+    }
+
+    private fun expandToolbar(view: View?, activity: Activity?) {
+        view?.let {
             var statusBarHeight = getStatusBarHeight(activity)
             val lp = it.layoutParams
             if (lp != null && lp.height > 0) {
