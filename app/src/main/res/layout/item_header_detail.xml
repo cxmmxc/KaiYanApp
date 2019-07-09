@@ -9,7 +9,7 @@
     android:orientation="vertical"
     >
 
-  <com.terry.kaiyan.widget.TyperTextView
+  <TextView
       android:id="@+id/detailTitleTv"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
       android:textSize="18sp"
       />
 
-  <com.terry.kaiyan.widget.TyperTextView
+  <TextView
       android:id="@+id/tagTitleTv"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
       android:textSize="14sp"
       />
 
-  <com.terry.kaiyan.widget.TyperTextView
+  <TextView
       android:id="@+id/descriptionTitleTv"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

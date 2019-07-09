@@ -72,4 +72,9 @@ class HotFragment : BaseFragment<HotPresenter>(), HotContract.View {
     override fun killMyself() {
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        LogUtils.debugInfo("cxm", "HotFragment onResume")
+    }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.tabs.TabLayout
 
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
@@ -17,6 +18,9 @@ import com.terry.kaiyan.mvp.contract.DicoverContract
 import com.terry.kaiyan.mvp.presenter.DicoverPresenter
 
 import com.terry.kaiyan.R
+import com.terry.kaiyan.mvp.ui.adapter.DiscoverMainAdapter
+import com.terry.kaiyan.utils.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_dicover.*
 
 
 /**
@@ -28,6 +32,9 @@ import com.terry.kaiyan.R
 
 
 class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View {
+
+    private var mAdapter:DiscoverMainAdapter ?= null
+
     companion object {
         fun newInstance(): DiscoverFragment {
             return DiscoverFragment()
@@ -50,6 +57,16 @@ class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View 
 
     override fun initData(savedInstanceState: Bundle?) {
         LogUtils.debugInfo("cxm", "DiscoverFragment")
+        mAdapter = DiscoverMainAdapter(activity!!)
+        discoverViewPager2.adapter = mAdapter
+        TabLayoutMediator(discoverTabLayout, discoverViewPager2,true, object : TabLayoutMediator.OnConfigureTabCallback{
+            override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+                when(position) {
+                    0 -> tab.text = "关注"
+                    1 -> tab.text = "分类"
+                }
+            }
+        }).attach()
     }
 
     override fun setData(data: Any?) {
@@ -74,5 +91,10 @@ class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View 
 
     override fun killMyself() {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LogUtils.debugInfo("cxm", "DiscoverFragment onResume")
     }
 }

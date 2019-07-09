@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LogUtils
 import com.terry.kaiyan.R
 import com.terry.kaiyan.di.component.DaggerDailyComponent
 import com.terry.kaiyan.di.module.DailyModule
@@ -30,6 +31,7 @@ import com.terry.kaiyan.mvp.ui.activity.SearchActivity
 import com.terry.kaiyan.mvp.ui.adapter.DailyBannerAdapter
 import com.terry.kaiyan.mvp.ui.adapter.DailyHomeAdapter
 import com.terry.kaiyan.utils.getStatusBarHeight
+import kotlinx.android.synthetic.main.activity_home.main_pager2
 import kotlinx.android.synthetic.main.fragment_daily.*
 import kotlinx.android.synthetic.main.item_daily_banner.view.*
 import java.text.SimpleDateFormat
@@ -80,6 +82,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
 
     override fun initData(savedInstanceState: Bundle?) {
 
+        LogUtils.debugInfo("cxm", "DailyFragment")
         dailySwipeLayout.setOnRefreshListener(this)
         dailySwipeLayout.setColorSchemeResources(
             android.R.color.holo_blue_light,
@@ -264,6 +267,7 @@ class DailyFragment : BaseFragment<DailyPresenter>(), DailyContract.View, SwipeR
 
     override fun onResume() {
         super.onResume()
+        LogUtils.debugInfo("cxm", "DailyFragment onResume")
         if (bannerAdapter.data.isNotEmpty()) {
             delayHandler.removeMessages(AUTO_SCROLL_WHAT)
             delayHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, AUTO_SCROLL_DELAY)

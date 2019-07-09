@@ -17,6 +17,7 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.http.imageloader.glide.ImageConfigImpl
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LogUtils
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
@@ -48,7 +49,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     private var isPlay: Boolean = false
     private var isPause: Boolean = false
     private var mDetailAdapter: VideoDetailAdapter? = null
-    private var headerView:View ?= null
+    private var headerView: View? = null
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerVideoDetailComponent //如找不到该类,请编译一下项目
@@ -91,11 +92,13 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         detailTitleTv.text = ""
         tagTitleTv.text = ""
         descriptionTitleTv.text = ""
-        detailTitleTv?.postDelayed({
-            detailTitleTv?.startStr(nowHomeItem?.data?.title)
-            tagTitleTv?.startStr("#${nowHomeItem?.data?.category}")
-            descriptionTitleTv?.startStr(nowHomeItem?.data?.description)
-        }, 150)
+        LogUtils.debugInfo(
+            "cxm",
+            "title = ${nowHomeItem?.data?.title} , category = ${nowHomeItem?.data?.category}, description = ${nowHomeItem?.data?.description}"
+        )
+        detailTitleTv?.text = nowHomeItem?.data?.title
+        tagTitleTv?.text = "#${nowHomeItem?.data?.category}"
+        descriptionTitleTv?.text = nowHomeItem?.data?.description
         detailLikeTv?.text = nowHomeItem?.data?.consumption?.collectionCount.toString()
         detailShareTv?.text = nowHomeItem?.data?.consumption?.shareCount.toString()
         detailReplyTv?.text = nowHomeItem?.data?.consumption?.replyCount.toString()
@@ -139,7 +142,9 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
             .imageLoader()
             .loadImage(
                 this, ImageConfigImpl.builder().url(nowHomeItem?.data?.cover?.feed).imageView(
-                    imageView).build())
+                    imageView
+                ).build()
+            )
         GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL)
         videoPlayer.thumbImageView = imageView
         videoPlayer.setVideoAllCallBack(object : GSYVideoListener {
@@ -202,7 +207,9 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
             .imageLoader()
             .loadImage(
                 this, ImageConfigImpl.builder().url(url).isCenterCrop(true).imageView(
-                    detailRelatedBgIv).build())
+                    detailRelatedBgIv
+                ).build()
+            )
     }
 
     override fun setPlayInfo(homeItem: HomeBean.Issue.HomeItem?) {
