@@ -1,13 +1,11 @@
 package com.terry.kaiyan.api
 
+import com.terry.kaiyan.mvp.model.Bean.DouyinBeanBase
 import com.terry.kaiyan.mvp.model.Bean.HomeBean
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 /**
  * 作者：Terry.CHen
@@ -34,4 +32,8 @@ interface ApiService {
 
     @GET("v4/video/related")
     fun getRelated(@Query("id") id:Long?):Observable<HomeBean.Issue>
+
+    @POST
+    @FormUrlEncoded
+    fun getDouyinData(@Url url: String, @Field("Page") page:String,@Field("VibratoId") vibratoId:String,@Field("SortType") sortType:String,@Field("Sign") sign:String) : Observable<DouyinBeanBase>
 }

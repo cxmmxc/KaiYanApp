@@ -1,6 +1,5 @@
 package com.terry.kaiyan.mvp.ui.activity
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.http.imageloader.glide.ImageConfigImpl
@@ -152,6 +150,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
                 super.onPrepared(url, *objects)
                 isPlay = true
                 orientationUtils?.isEnable = true
+//                videoPlayer.seekTo(300 * 1000)
             }
 
             override fun onPlayError(url: String?, vararg objects: Any?) {
@@ -174,7 +173,6 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
         videoPlayer.setLockClickListener { _, lock ->
             orientationUtils?.isEnable = !lock
         }
-
     }
 
     override fun showLoading() {
@@ -198,7 +196,7 @@ class VideoDetailActivity : BaseActivity<VideoDetailPresenter>(), VideoDetailCon
     }
 
     override fun setVideoPlayUrl(url: String?) {
-        videoPlayer.setUp(url, false, "")
+        videoPlayer.setUp(url, true, "")
         videoPlayer.startPlayLogic()
     }
 

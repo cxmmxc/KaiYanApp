@@ -16,9 +16,7 @@ import com.jess.arms.http.imageloader.glide.ImageConfigImpl
 import com.jess.arms.utils.ArmsUtils
 import com.terry.kaiyan.R
 import com.terry.kaiyan.mvp.model.Bean.HomeBean
-import com.terry.kaiyan.mvp.ui.activity.TRANSITION_DETAIL_NAME
-import com.terry.kaiyan.mvp.ui.activity.VIDEO_DETAIL_BEAN
-import com.terry.kaiyan.mvp.ui.activity.VideoDetailActivity
+import com.terry.kaiyan.mvp.ui.activity.*
 import com.terry.kaiyan.utils.durationFormat
 
 /**

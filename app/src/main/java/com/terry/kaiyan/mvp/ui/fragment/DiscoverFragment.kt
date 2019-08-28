@@ -20,6 +20,8 @@ import com.terry.kaiyan.mvp.presenter.DicoverPresenter
 import com.terry.kaiyan.R
 import com.terry.kaiyan.mvp.ui.adapter.DiscoverMainAdapter
 import com.terry.kaiyan.utils.TabLayoutMediator
+import com.terry.kaiyan.utils.getStatusBarHeight
+import kotlinx.android.synthetic.main.fragment_daily.*
 import kotlinx.android.synthetic.main.fragment_dicover.*
 
 
@@ -33,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_dicover.*
 
 class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View {
 
-    private var mAdapter:DiscoverMainAdapter ?= null
+    private var mAdapter: DiscoverMainAdapter? = null
 
     companion object {
         fun newInstance(): DiscoverFragment {
@@ -44,11 +46,11 @@ class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View 
 
     override fun setupFragmentComponent(appComponent: AppComponent) {
         DaggerDicoverComponent //如找不到该类,请编译一下项目
-            .builder()
-            .appComponent(appComponent)
-            .dicoverModule(DicoverModule(this))
-            .build()
-            .inject(this)
+                .builder()
+                .appComponent(appComponent)
+                .dicoverModule(DicoverModule(this))
+                .build()
+                .inject(this)
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -57,13 +59,30 @@ class DiscoverFragment : BaseFragment<DicoverPresenter>(), DicoverContract.View 
 
     override fun initData(savedInstanceState: Bundle?) {
         LogUtils.debugInfo("cxm", "DiscoverFragment")
+        activity.let {
+            var statusBarHeight = getStatusBarHeight(context)
+            val lp = titleDiscoverTv?.layoutParams
+            if (lp != null && lp.height > 0) {
+                lp.height += statusBarHeight
+            }
+            titleDiscoverTv.setPadding(
+                    0,
+                    titleDiscoverTv.paddingTop + statusBarHeight,
+                    0,
+                    titleDiscoverTv.paddingBottom
+            )
+        }
         mAdapter = DiscoverMainAdapter(activity!!)
         discoverViewPager2.adapter = mAdapter
-        TabLayoutMediator(discoverTabLayout, discoverViewPager2,true, object : TabLayoutMediator.OnConfigureTabCallback{
+        TabLayoutMediator(discoverTabLayout, discoverViewPager2, true, object : TabLayoutMediator.OnConfigureTabCallback {
             override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-                when(position) {
-                    0 -> tab.text = "关注"
-                    1 -> tab.text = "分类"
+                when (position) {
+                    0 -> {
+                        tab.text = "关注"
+                    }
+                    1 -> {
+                        tab.text = "分类"
+                    }
                 }
             }
         }).attach()

@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titleDiscoverTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_discover"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/discoverTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        app:tabTextColor="@color/color_696969"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="?android:textAppearance"
+        app:tabMode="fixed"
+        app:tabMinWidth="100dip"
         app:tabGravity="center"
         app:tabIndicatorFullWidth="false"
-        >
-    </com.google.android.material.tabs.TabLayout>
+        />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/discoverViewPager2"

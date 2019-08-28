@@ -20,24 +20,26 @@ import com.terry.kaiyan.api.UrlConstant
  * Description:
  */
 class GlobalConfiguration : ConfigModule {
+
     override fun injectFragmentLifecycle(
-        context: Context?,
-        lifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks>?
+        context: Context,
+        lifecycles: MutableList<FragmentManager.FragmentLifecycleCallbacks>
     ) {
-        lifecycles?.add(object : FragmentManager.FragmentLifecycleCallbacks() {
+        lifecycles.add(object : FragmentManager.FragmentLifecycleCallbacks() {
             override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+                super.onFragmentCreated(fm, f, savedInstanceState)
                 f.retainInstance = true
             }
         })
     }
 
-    override fun applyOptions(context: Context?, builder: GlobalConfigModule.Builder?) {
+    override fun applyOptions(context: Context, builder: GlobalConfigModule.Builder) {
         if (!BuildConfig.LOG_DEBUG) {
-            builder?.let {
+            builder.let {
                 it.printHttpLogLevel(RequestInterceptor.Level.NONE)
             }
         }
-        builder?.let {
+        builder.let {
             it.baseurl(UrlConstant.BASE_URL)
                 .imageLoaderStrategy(GlideImageLoaderStrategy())
                 .gsonConfiguration { context, builder ->
@@ -49,15 +51,15 @@ class GlobalConfiguration : ConfigModule {
         }
     }
 
-    override fun injectAppLifecycle(context: Context?, lifecycles: MutableList<AppLifecycles>?) {
-        lifecycles?.add(AppLifecleImp())
+    override fun injectAppLifecycle(context: Context, lifecycles: MutableList<AppLifecycles>) {
+        lifecycles.add(AppLifecleImp())
     }
 
     override fun injectActivityLifecycle(
-        context: Context?,
-        lifecycles: MutableList<Application.ActivityLifecycleCallbacks>?
+        context: Context,
+        lifecycles: MutableList<Application.ActivityLifecycleCallbacks>
     ) {
-        lifecycles?.let {
+        lifecycles.let {
             it.add(ActivityLifeCallbackImp())
         }
     }

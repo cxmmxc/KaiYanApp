@@ -3,6 +3,7 @@ package com.terry.kaiyan.mvp.ui.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Message
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import com.terry.kaiyan.mvp.contract.DiscoverLikeContract
 import com.terry.kaiyan.mvp.presenter.DiscoverLikePresenter
 
 import com.terry.kaiyan.R
+import com.terry.kaiyan.mvp.ui.activity.HideActivity
+import kotlinx.android.synthetic.main.fragment_discover_like.*
 
 
 /**
@@ -28,6 +31,12 @@ import com.terry.kaiyan.R
 
 
 class DiscoverLikeFragment : BaseFragment<DiscoverLikePresenter>(), DiscoverLikeContract.View {
+
+
+    val COUNTS = 5
+    val DURATION = 3*1000L
+    val mHits = LongArray(COUNTS)
+
     companion object {
         fun newInstance(): DiscoverLikeFragment {
             return DiscoverLikeFragment()
@@ -49,7 +58,14 @@ class DiscoverLikeFragment : BaseFragment<DiscoverLikePresenter>(), DiscoverLike
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-
+        hideTv.setOnClickListener {
+            //点击5次进入隐藏页面
+            System.arraycopy(mHits, 1, mHits, 0, mHits.size - 1)
+            mHits[mHits.size-1] = SystemClock.uptimeMillis()
+            if (mHits[0] >= (SystemClock.uptimeMillis() - DURATION)) {
+                startActivity(Intent(activity, HideActivity::class.java))
+            }
+        }
     }
 
     override fun setData(data: Any?) {

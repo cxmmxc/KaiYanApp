@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.*
 import com.google.android.material.tabs.TabLayout
+import com.jess.arms.utils.LogUtils
 import java.lang.IllegalStateException
 import java.lang.ref.WeakReference
 import java.lang.reflect.Method
@@ -47,6 +48,7 @@ open class TabLayoutMediator @JvmOverloads constructor(
         sSelectTab =
             TabLayout::class.java.getDeclaredMethod("selectTab", TabLayout.Tab::class.java, Boolean::class.java)
         sSelectTab?.isAccessible = true
+        LogUtils.debugInfo("cxm", "init")
     }
 
 
@@ -70,6 +72,7 @@ open class TabLayoutMediator @JvmOverloads constructor(
             mAdapter.registerAdapterDataObserver(mPagerAdapterObserver!!)
         }
         populateTabsFromPageAdapter()
+        LogUtils.debugInfo("cxm", "attach")
         mTabLayout.setScrollPosition(mViewPager2.currentItem, 0F, true)
     }
 
@@ -101,7 +104,7 @@ open class TabLayoutMediator @JvmOverloads constructor(
         updateIndicatorPosition: Boolean
     ) {
         sSetScrollPosition?.invoke(tabLayout, position, positionOffset, updateSelectText, updateIndicatorPosition)
-            ?: throwMethodNotFound()
+
 
     }
 

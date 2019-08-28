@@ -1,6 +1,5 @@
 package com.terry.kaiyan.mvp.model.Bean
 
-import android.os.Parcelable
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import java.io.Serializable
 
