@@ -1,6 +1,7 @@
 package com.terry.kaiyan.mvp.ui.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.ImageView
 
@@ -8,6 +9,7 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.http.imageloader.glide.ImageConfigImpl
 import com.jess.arms.utils.ArmsUtils
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 
@@ -134,5 +136,39 @@ class HideDetailActivity : BaseActivity<HideDetailPresenter>(), HideDetailContra
 
     override fun killMyself() {
         finish()
+    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (isPlay && !isPause) {
+            videoPlayer.onConfigurationChanged(this, newConfig, orientationUtils)
+        }
+    }
+
+    override fun onBackPressed() {
+        orientationUtils?.backToProtVideo()
+        if (GSYVideoManager.backFromWindowFull(this)) {
+            return
+        }
+        super.onBackPressed()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        videoPlayer.currentPlayer.onVideoPause()
+        isPause = true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        videoPlayer.currentPlayer.onVideoResume(false)
+        isPause = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isPlay) {
+            videoPlayer.currentPlayer.release()
+        }
+        orientationUtils?.releaseListener()
     }
 }

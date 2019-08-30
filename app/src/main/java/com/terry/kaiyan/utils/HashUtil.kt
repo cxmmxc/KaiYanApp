@@ -1,13 +1,10 @@
 package com.terry.kaiyan.utils
 
 import java.io.UnsupportedEncodingException
-import java.lang.StringBuilder
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.experimental.and
 
 /**
  * Author:ChenXinming

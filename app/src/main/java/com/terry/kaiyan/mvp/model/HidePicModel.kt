@@ -9,32 +9,29 @@ import com.jess.arms.di.scope.ActivityScope
 import com.terry.kaiyan.api.ApiService
 import javax.inject.Inject
 
-import com.terry.kaiyan.mvp.contract.HideContract
+import com.terry.kaiyan.mvp.contract.HidePicContract
 import com.terry.kaiyan.mvp.model.Bean.DouyinBeanBase
 import io.reactivex.Observable
 
 
 /**
  * Author:ChenXinming
- * Date: 2019/08/27
+ * Date: 2019/08/29
  * Email:chenxinming@antelop.cloud
  * Description:
  */
 @ActivityScope
-class HideModel
+class HidePicModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager),
-    HideContract.Model {
-
-
-
+    HidePicContract.Model {
     @Inject
     lateinit var mGson: Gson;
     @Inject
     lateinit var mApplication: Application;
 
     override fun onDestroy() {
-        super.onDestroy()
+        super.onDestroy();
     }
 
     override fun loadDouyinData(
@@ -55,5 +52,4 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
                 sign = sign
             )
     }
-
 }

@@ -16,24 +16,28 @@ import retrofit2.http.*
 interface ApiService {
 
     @GET("v2/feed?")
-    fun getBannerData(@Query("num") num:Int):Observable<HomeBean>
+    fun getBannerData(@Query("num") num: Int): Observable<HomeBean>
 
     @GET
-    fun getMoreData(@Url url:String):Observable<HomeBean>
+    fun getMoreData(@Url url: String): Observable<HomeBean>
 
     @GET("v3/queries/hot")
-    fun getHotWords():Observable<ArrayList<String>>
+    fun getHotWords(): Observable<ArrayList<String>>
 
     @GET("v1/search")
-    fun getSearchHots(@Query("num") num:Int,@Query("start") start:Int,@Query("query") query:String):Observable<HomeBean.Issue>
+    fun getSearchHots(@Query("num") num: Int, @Query("start") start: Int, @Query("query") query: String): Observable<HomeBean.Issue>
 
     @GET
-    fun getSearchMoreHots(@Url url:String):Observable<HomeBean.Issue>
+    fun getSearchMoreHots(@Url url: String): Observable<HomeBean.Issue>
 
     @GET("v4/video/related")
-    fun getRelated(@Query("id") id:Long?):Observable<HomeBean.Issue>
+    fun getRelated(@Query("id") id: Long?): Observable<HomeBean.Issue>
 
     @POST
     @FormUrlEncoded
-    fun getDouyinData(@Url url: String, @Field("Page") page:String,@Field("VibratoId") vibratoId:String,@Field("SortType") sortType:String,@Field("Sign") sign:String) : Observable<DouyinBeanBase>
+    fun getDouyinData(
+        @Url url: String, @Field("Page") page: String?, @Field("VibratoId") vibratoId: String?, @Field(
+            "SortType"
+        ) sortType: String?, @Field("Type") type: String?, @Field("Sign") sign: String?
+    ): Observable<DouyinBeanBase>
 }

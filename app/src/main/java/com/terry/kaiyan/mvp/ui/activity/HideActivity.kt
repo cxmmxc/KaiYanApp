@@ -48,6 +48,8 @@ class HideActivity : BaseActivity<HidePresenter>(), HideContract.View,
 
     private lateinit var mAdapter: HideAdapter
     private var mPage = 1
+    private var mDouyinType: Boolean = true
+
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerHideComponent //如找不到该类,请编译一下项目
@@ -73,16 +75,31 @@ class HideActivity : BaseActivity<HidePresenter>(), HideContract.View,
         mAdapter.setOnLoadMoreListener(this, hideRecyclerView)
         hideRecyclerView.postDelayed({
             hideRefresh.isRefreshing = true
-            getData(mPage)
-        },100)
+            onRefresh()
+        }, 100)
         mAdapter.setOnItemClickListener { adapter, _, position ->
             val douyinBean = adapter.getItem(position) as DouyinBeanBase.ResultBean.DouyinBean
             val intent = Intent(this@HideActivity, HideDetailActivity::class.java)
-            intent.putExtra("url",douyinBean.Video)
-            intent.putExtra("cover",douyinBean.VideoImg)
+            intent.putExtra("url", douyinBean.Video)
+            intent.putExtra("cover", douyinBean.VideoImg)
             startActivity(intent)
         }
+        changeBtn.setOnClickListener {
+            //进行转换为Video类型
+            mDouyinType = !mDouyinType
+            hideRefresh.isRefreshing = true
+            onRefresh()
+            changeBtn.text = if (mDouyinType) "DouYin" else "Video"
+        }
+        picBtn.setOnClickListener {
+            val intent = Intent(this@HideActivity, HidePicActivity::class.java)
+            startActivity(intent)
+        }
+        categoryBtn.setOnClickListener {
+
+        }
     }
+
     override fun onRefresh() {
         mPage = 1
         getData(mPage)
@@ -93,13 +110,27 @@ class HideActivity : BaseActivity<HidePresenter>(), HideContract.View,
         getData(mPage)
     }
 
-    private fun getData(page:Int) {
+    private fun getData(page: Int) {
         val hashMap = HashMap<String, String>()
         hashMap["Page"] = page.toString()
-        hashMap["VibratoId"] = "0"
-        hashMap["SortType"] = "2"
-
-        mPresenter?.loadDouyinData(hashMap["Page"]!!,hashMap["VibratoId"]!!, hashMap["SortType"]!!, paramsToSign(hashMap))
+        var url = "https://api.wxzslm.com/api/Vibrato/LoadData"
+        if (mDouyinType) {
+            hashMap["VibratoId"] = "0"
+            hashMap["SortType"] = "2"
+            hashMap["type"] = ""
+            url = "https://api.wxzslm.com/api/Vibrato/LoadData"
+        } else {
+            hashMap["Type"] = "1"
+            url = "https://api.wxzslm.com/api/Article/LoadData"
+        }
+        mPresenter?.loadDouyinData(
+            url,
+            hashMap["Page"],
+            hashMap["VibratoId"],
+            hashMap["SortType"],
+            hashMap["Type"],
+            paramsToSign(hashMap)
+        )
     }
 
 
@@ -122,6 +153,7 @@ class HideActivity : BaseActivity<HidePresenter>(), HideContract.View,
     override fun killMyself() {
         finish()
     }
+
     override fun loadDouyinSuccess(list: List<DouyinBeanBase.ResultBean.DouyinBean>?) {
         hideRefresh.isRefreshing = false
         if (mPage == 1) {

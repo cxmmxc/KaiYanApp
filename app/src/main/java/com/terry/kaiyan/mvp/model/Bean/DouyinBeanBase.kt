@@ -8,6 +8,15 @@ package com.terry.kaiyan.mvp.model.Bean
 data class DouyinBeanBase(val Result:ResultBean?, val Code:Int){
 
     data class ResultBean(val count:Int, val data:List<DouyinBean>?){
-        data class DouyinBean(val Id:Int,val Title:String, val Video:String?, val VideoImg:String?, val CreateTime:String)
+        data class DouyinBean(
+            val Id: Int,
+            val Title: String,
+            val Video: String?,
+            val VideoImg: String?,
+            val CreateTime: String,
+            val DomainName: String,
+            val Path: String,
+            val Image: String
+        )
     }
 }
